@@ -1,7 +1,7 @@
 use std::fmt;
 
 #[derive(Debug)]
-struct UnionFind {
+pub struct UnionFind {
     id: Vec<usize>,
     sz: Vec<usize>,
 }
