@@ -1,0 +1,2 @@
+# Ignore rusts target binary output directory
+target/
