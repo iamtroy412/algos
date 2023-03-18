@@ -47,7 +47,7 @@ impl PercolationStats {
                     .xs
                     .iter()
                     .map(|value| {
-                        let diff = data_mean - (*value as f64);
+                        let diff = data_mean - *value;
                         diff * diff
                     })
                     .sum::<f64>()
@@ -72,7 +72,7 @@ impl PercolationStats {
 fn main() {
     println!("Hello!");
 
-    let stats = PercolationStats::new(2, 100_000);
+    let stats = PercolationStats::new(200, 100);
     println!("{:23} = {}", "mean", stats.mean());
     println!("{:23} = {}", "stddev", stats.std_dev());
     println!(

@@ -72,7 +72,7 @@ impl Percolation {
 
     // returns the number of open sites
     pub fn num_open_sites(&self) -> usize {
-        self.opened.iter().filter(|&x| *x == true).count()
+        self.opened.iter().filter(|&x| *x).count()
     }
 
     // Does the system percolate?
