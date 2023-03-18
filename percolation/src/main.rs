@@ -20,6 +20,26 @@ impl Percolation {
         (row - 1) * self.n + col - 1
     }
 
+    // Given a site (row, col) return a list of indexes in the `uf`
+    // that represent it's neighbor sites.
+    fn get_neighbors(&self, row: usize, col: usize) -> Vec<usize> {
+        let mut neighbors = Vec::new();
+
+        if row != 1 {
+            neighbors.push(self.index_of(row - 1, col));
+        }
+        if row != self.n {
+            neighbors.push(self.index_of(row + 1, col));
+        }
+        if col != 1 {
+            neighbors.push(self.index_of(row, col - 1));
+        }
+        if col != self.n {
+            neighbors.push(self.index_of(row, col + 1));
+        }
+        neighbors
+    }
+
     // opens the site (row, col) if it is not already open
     pub fn open(&mut self, row: usize, col: usize) {}
 
