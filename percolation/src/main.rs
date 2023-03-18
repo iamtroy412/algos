@@ -72,7 +72,7 @@ impl PercolationStats {
 fn main() {
     println!("Hello!");
 
-    let stats = PercolationStats::new(200, 100);
+    let stats = PercolationStats::new(30, 10000);
     println!("{:23} = {}", "mean", stats.mean());
     println!("{:23} = {}", "stddev", stats.std_dev());
     println!(
