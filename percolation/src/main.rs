@@ -60,7 +60,7 @@ impl Percolation {
     }
 
     // is the site (row, col) full?
-    pub fn is_full(&self, row: usize, col: usize) -> bool {
+    pub fn is_full(&mut self, row: usize, col: usize) -> bool {
         let index = self.index_of(row, col);
         for column in 1..self.n + 1 {
             if self.is_open(1, column) && self.uf.connected(self.index_of(1, column), index) {
@@ -76,5 +76,12 @@ impl Percolation {
     }
 
     // Does the system percolate?
-    pub fn percolates(&self) -> bool {}
+    pub fn percolates(&mut self) -> bool {
+        for col in 1..=self.n {
+            if self.is_open(self.n, col) && self.is_full(self.n, col) {
+                return true;
+            }
+        }
+        false
+    }
 }
