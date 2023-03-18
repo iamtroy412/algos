@@ -34,6 +34,11 @@ impl PercolationStats {
         }
         PercolationStats { t, xs }
     }
+
+    // sample mean of percolation threshold
+    pub fn mean(&self) -> f64 {
+        self.xs.iter().sum::<f64>() / self.xs.len() as f64
+    }
 }
 
 fn main() {
