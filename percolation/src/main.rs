@@ -1,5 +1,3 @@
-use std::env::var;
-
 use percolation::percolation::Percolation;
 use rand::{thread_rng, Rng};
 
