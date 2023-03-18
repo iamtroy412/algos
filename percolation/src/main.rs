@@ -1,3 +1,5 @@
+use std::env::var;
+
 use percolation::percolation::Percolation;
 use rand::{thread_rng, Rng};
 
@@ -38,6 +40,24 @@ impl PercolationStats {
     // sample mean of percolation threshold
     pub fn mean(&self) -> f64 {
         self.xs.iter().sum::<f64>() / self.xs.len() as f64
+    }
+
+    pub fn std_dev(&self) -> f64 {
+        match (self.mean(), self.xs.len()) {
+            (data_mean, count) if count > 0 => {
+                let variance = self
+                    .xs
+                    .iter()
+                    .map(|value| {
+                        let diff = data_mean - (*value as f64);
+                        diff * diff
+                    })
+                    .sum::<f64>()
+                    / count as f64;
+                variance.sqrt()
+            }
+            _ => 0.0,
+        }
     }
 }
 
