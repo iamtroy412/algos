@@ -1,6 +1,8 @@
 use crate::percolation::Percolation;
-use indicatif::ProgressIterator;
+use indicatif::ParallelProgressIterator;
 use rand::{thread_rng, Rng};
+use rayon::prelude::*;
+use std::sync::{Arc, Mutex};
 
 pub struct PercolationStats {
     t: usize,
@@ -9,15 +11,16 @@ pub struct PercolationStats {
 
 impl PercolationStats {
     pub fn new(n: usize, t: usize) -> Self {
-        let mut random = thread_rng();
-        let mut xs = Vec::new();
+        let xs = Arc::new(Mutex::new(Vec::new()));
         let n_site = (n as f64) * (n as f64);
 
-        for _ in (0..t).progress() {
+        (0..t).into_par_iter().progress().for_each(|_| {
+            let clone = Arc::clone(&xs);
             let mut sites = Percolation::new(n);
             let mut count = 0_f64;
 
             loop {
+                let mut random = thread_rng();
                 let r = random.gen_range(0..n * n);
                 let i = r / n + 1;
                 let j = r % n + 1;
@@ -31,9 +34,14 @@ impl PercolationStats {
                     break;
                 }
             }
-            xs.push(count / n_site);
-        }
-        PercolationStats { t, xs }
+            let mut v = clone.lock().unwrap();
+            v.push(count / n_site);
+        });
+        // This works but just doesn't look/feel right...
+        // Will revisit arcs and mutex and threads in more detail
+        // at a later date.
+        let inner = Arc::try_unwrap(xs).unwrap().into_inner().unwrap();
+        PercolationStats { t, xs: inner }
     }
 
     // sample mean of percolation threshold
