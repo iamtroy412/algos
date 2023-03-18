@@ -57,6 +57,11 @@ impl PercolationStats {
             _ => 0.0,
         }
     }
+
+    // high endpoint of 95% confidence interval
+    pub fn confidence_high(&self) -> f64 {
+        self.mean() + 1.96 * self.std_dev() / (self.t as f64).sqrt()
+    }
 }
 
 fn main() {
