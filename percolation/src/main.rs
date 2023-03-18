@@ -41,7 +41,18 @@ impl Percolation {
     }
 
     // opens the site (row, col) if it is not already open
-    pub fn open(&mut self, row: usize, col: usize) {}
+    pub fn open(&mut self, row: usize, col: usize) {
+        // Open the give site
+        let index = self.index_of(row, col);
+        self.opened[index] = true;
+
+        // Open the sites neighbors
+        for i in self.get_neighbors(row, col) {
+            if self.opened[i] {
+                self.uf.union(index, i);
+            }
+        }
+    }
 
     // is the site (row, col) open?
     pub fn is_open(&self, row: usize, col: usize) -> bool {
