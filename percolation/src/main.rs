@@ -29,7 +29,15 @@ impl Percolation {
     }
 
     // is the site (row, col) full?
-    pub fn is_full(&self, row: usize, col: usize) -> bool {}
+    pub fn is_full(&self, row: usize, col: usize) -> bool {
+        let index = self.index_of(row, col);
+        for column in 1..self.n + 1 {
+            if self.is_open(1, column) && self.uf.connected(self.index_of(1, column), index) {
+                return true;
+            }
+        }
+        false
+    }
 
     // returns the number of open sites
     pub fn num_open_sites(&self) -> usize {
