@@ -8,5 +8,6 @@ edition = "2021"
 [dependencies]
 clap = { version = "4.1.10", features = ["derive"] }
 cpu-time = "1.0.0"
-indicatif = "0.17.3"
+indicatif = { version = "0.17.3", features = ["rayon"] }
 rand = "0.8.5"
+rayon = "1.7.0"
