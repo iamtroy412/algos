@@ -62,8 +62,13 @@ impl PercolationStats {
     pub fn confidence_high(&self) -> f64 {
         self.mean() + 1.96 * self.std_dev() / (self.t as f64).sqrt()
     }
+
+    // low endpoint of 95% confidence interval
+    pub fn confidence_low(&self) -> f64 {
+        self.mean() - 1.96 * self.std_dev() / (self.t as f64).sqrt()
+    }
 }
 
 fn main() {
-    println!("Hello");
+    println!("Hello!");
 }
