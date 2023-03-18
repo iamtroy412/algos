@@ -1,4 +1,5 @@
 use crate::percolation::Percolation;
+use indicatif::ProgressIterator;
 use rand::{thread_rng, Rng};
 
 pub struct PercolationStats {
@@ -12,7 +13,7 @@ impl PercolationStats {
         let mut xs = Vec::new();
         let n_site = (n as f64) * (n as f64);
 
-        for _ in 0..t {
+        for _ in (0..t).progress() {
             let mut sites = Percolation::new(n);
             let mut count = 0_f64;
 

@@ -32,8 +32,10 @@ fn exp_in_range(s: &str) -> Result<usize, String> {
 fn main() {
     let cli = Cli::parse();
     println!("Hello!");
+    println!("Running experiments...");
 
     let stats = PercolationStats::new(cli.size, cli.exp);
+    println!("Results:");
     println!("{:23} = {}", "mean", stats.mean());
     println!("{:23} = {}", "stddev", stats.std_dev());
     println!(
