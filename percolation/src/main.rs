@@ -1,4 +1,6 @@
 use clap::Parser;
+use core::time::Duration;
+use cpu_time::ProcessTime;
 use percolation::stats::PercolationStats;
 use std::ops::RangeFrom;
 
@@ -34,7 +36,10 @@ fn main() {
     println!("Hello!");
     println!("Running experiments...");
 
+    let start = ProcessTime::now();
     let stats = PercolationStats::new(cli.size, cli.exp);
+    let cpu_time: Duration = start.elapsed();
+    println!("Elapsed CPU Time: {cpu_time:?}");
     println!("Results:");
     println!("{:23} = {}", "mean", stats.mean());
     println!("{:23} = {}", "stddev", stats.std_dev());
