@@ -16,6 +16,8 @@ impl Percolation {
         }
     }
 
+    // Given a (row, col) pair, map this to the index in our
+    // 1-dimension array of N * N size.
     fn index_of(&self, row: usize, col: usize) -> usize {
         (row - 1) * self.n + col - 1
     }
