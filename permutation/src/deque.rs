@@ -130,3 +130,19 @@ impl<T> Drop for Deque<T> {
         while self.remove_first().is_some() {}
     }
 }
+
+// Implement a forward and reverse iterator for our `Deque`
+pub struct IntoIter<T>(Deque<T>);
+
+impl<T> Iterator for IntoIter<T> {
+    type Item = T;
+    fn next(&mut self) -> Option<T> {
+        self.0.remove_first()
+    }
+}
+
+impl<T> DoubleEndedIterator for IntoIter<T> {
+    fn next_back(&mut self) -> Option<T> {
+        self.0.remove_last()
+    }
+}
