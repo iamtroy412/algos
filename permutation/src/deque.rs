@@ -98,10 +98,35 @@ impl<T> Deque<T> {
             Rc::try_unwrap(old_head).ok().unwrap().into_inner().val
         })
     }
+
+    // remove and return the item from the back
+    pub fn remove_last(&mut self) -> Option<T> {
+        self.length -= 1;
+        self.tail.take().map(|old_tail| {
+            match old_tail.borrow_mut().prev.take() {
+                Some(new_tail) => {
+                    new_tail.borrow_mut().next.take();
+                    self.tail = Some(new_tail);
+                }
+                None => {
+                    self.head.take();
+                }
+            }
+            Rc::try_unwrap(old_tail).ok().unwrap().into_inner().val
+        })
+    }
 }
 
 impl<T> Default for Deque<T> {
     fn default() -> Self {
         Self::new()
+    }
+}
+
+impl<T> Drop for Deque<T> {
+    fn drop(&mut self) {
+        // While we still get values back from removing elements,
+        // just take ownserhip and do nothing with them. ie dropping
+        while self.remove_first().is_some() {}
     }
 }
