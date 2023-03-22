@@ -63,6 +63,24 @@ impl<T> Deque<T> {
         }
         self.length += 1;
     }
+
+    // add the item to the back
+    pub fn add_last(&mut self, item: T) {
+        let new_tail = Node::new(item);
+
+        match self.tail.take() {
+            Some(old_tail) => {
+                old_tail.borrow_mut().next = Some(new_tail.clone());
+                new_tail.borrow_mut().prev = Some(old_tail);
+                self.tail = Some(new_tail);
+            }
+            None => {
+                self.head = Some(new_tail.clone());
+                self.tail = Some(new_tail);
+            }
+        }
+        self.length += 1;
+    }
 }
 
 impl<T> Default for Deque<T> {
