@@ -1,4 +1,5 @@
 use std::cell::RefCell;
+use std::fmt::{Display, Formatter, Result};
 use std::rc::Rc;
 
 type Link<T> = Option<Rc<RefCell<Node<T>>>>;
@@ -16,6 +17,15 @@ impl<T> Node<T> {
             next: None,
             prev: None,
         }))
+    }
+}
+
+impl<T> Display for Node<T>
+where
+    T: Display,
+{
+    fn fmt(&self, f: &mut Formatter) -> Result {
+        write!(f, "{}", self.val)
     }
 }
 
