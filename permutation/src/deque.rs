@@ -94,15 +94,16 @@ impl<T> Deque<T> {
 
     // remove and return the item from the front
     pub fn remove_first(&mut self) -> Option<T> {
-        self.length -= 1;
         self.head.take().map(|old_head| {
             match old_head.borrow_mut().next.take() {
                 Some(new_head) => {
                     new_head.borrow_mut().prev.take();
                     self.head = Some(new_head);
+                    self.length -= 1;
                 }
                 None => {
                     self.tail.take();
+                    self.length -= 1;
                 }
             }
             Rc::try_unwrap(old_head).ok().unwrap().into_inner().val
@@ -111,15 +112,16 @@ impl<T> Deque<T> {
 
     // remove and return the item from the back
     pub fn remove_last(&mut self) -> Option<T> {
-        self.length -= 1;
         self.tail.take().map(|old_tail| {
             match old_tail.borrow_mut().prev.take() {
                 Some(new_tail) => {
                     new_tail.borrow_mut().next.take();
                     self.tail = Some(new_tail);
+                    self.length -= 1;
                 }
                 None => {
                     self.head.take();
+                    self.length -= 1;
                 }
             }
             Rc::try_unwrap(old_tail).ok().unwrap().into_inner().val
